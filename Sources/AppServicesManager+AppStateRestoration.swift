@@ -10,6 +10,18 @@ import UIKit
 
 extension PluggableApplicationDelegate {
 
+   
+    @available(iOS 13.2, *)
+    open func application(_ application: UIApplication, shouldSaveSecureApplicationState coder: NSCoder) -> Bool {
+        var result = false
+        for service in _services {
+            if service.application?(application, shouldSaveSecureApplicationState: coder) ?? false {
+                result = true
+            }
+        }
+        return result
+    }
+    
     @available(iOS 6.0, *)
     open func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
         var result = false
